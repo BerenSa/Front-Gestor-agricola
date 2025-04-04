@@ -1,0 +1,168 @@
+.graficas-page {
+  padding-bottom: 2rem;
+}
+
+.graficas-page h1 {
+  margin-bottom: 1.5rem;
+  color: #f50c8c;
+}
+
+.filtros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  background-color: white;
+  padding: 1rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+}
+
+.filtro-parcela,
+.filtro-intervalo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1;
+  min-width: 200px;
+}
+
+.filtro-parcela label,
+.filtro-intervalo label {
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.filtro-parcela select,
+.filtro-intervalo select {
+  flex: 1;
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  font-size: 0.9rem;
+  background-color: white;
+}
+
+.filtro-fecha {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.filtro-fecha label {
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.filtro-fecha input {
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  font-size: 0.9rem;
+}
+
+.data-limit-notice {
+  background-color: white;
+  border-left: 4px solid var(--primary-color);
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.5rem;
+  border-radius: 0 var(--border-radius) var(--border-radius) 0;
+  font-size: 0.9rem;
+  color: #555;
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+}
+
+.data-limit-notice::before {
+  content: "ℹ️";
+  margin-right: 0.5rem;
+  font-size: 1.1rem;
+}
+
+.graficas-container {
+  display: grid;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.single-chart {
+  grid-template-columns: 1fr !important;
+}
+
+.grafica {
+  background-color: white;
+  border-radius: var(--border-radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+}
+
+.grafica h2 {
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  color: #f50c8c;
+}
+
+.chart-container {
+  height: 400px;
+  position: relative;
+}
+
+.doughnut-container {
+  max-height: 500px;
+  margin: 0 auto;
+  max-width: 500px;
+}
+
+.parcela-link {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+.button {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: var(--border-radius);
+  font-weight: 500;
+  transition: var(--transition);
+}
+
+.button:hover {
+  background-color: var(--primary-dark);
+  color: white;
+}
+
+@media (min-width: 768px) {
+  .graficas-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .filtros {
+    flex-direction: column;
+  }
+
+  .filtro-fecha {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .filtro-fecha input {
+    width: 100%;
+  }
+
+  .chart-container {
+    height: 300px;
+  }
+
+  .data-limit-notice {
+    font-size: 0.85rem;
+    padding: 0.6rem 0.8rem;
+  }
+}
+

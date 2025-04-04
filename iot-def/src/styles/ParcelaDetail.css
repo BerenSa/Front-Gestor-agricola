@@ -1,0 +1,149 @@
+.parcela-detail {
+  padding-bottom: 2rem;
+}
+
+.parcela-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.parcela-header h1 {
+  color: var(--primary-color);
+}
+
+.parcela-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.action-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: var(--border-radius);
+  font-size: 0.9rem;
+  transition: var(--transition);
+}
+
+.action-button:hover {
+  background-color: var(--primary-dark);
+  color: white;
+}
+
+.parcela-content {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.parcela-info-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+.parcela-widgets {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.parcela-map {
+  height: 300px;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.parcela-historial {
+  background-color: white;
+  border-radius: var(--border-radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+}
+
+.historial-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  color: var(--primary-color);
+}
+
+.historial-header h2 {
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.historial-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.historial-item {
+  padding: 1rem;
+  border-radius: var(--border-radius);
+  background-color: var(--background-color);
+  border-left: 3px solid var(--secondary-color);
+}
+
+.historial-date {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  margin-bottom: 0.5rem;
+}
+
+.historial-values {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.historial-values span {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.9rem;
+}
+
+.ver-mas-link {
+  display: block;
+  text-align: center;
+  margin-top: 1.5rem;
+  font-weight: 500;
+  color: var(--primary-color);
+}
+
+@media (min-width: 768px) {
+  .parcela-info-container {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .parcela-map {
+    height: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .parcela-widgets {
+    grid-template-columns: 1fr;
+  }
+
+  .parcela-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .historial-values {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+

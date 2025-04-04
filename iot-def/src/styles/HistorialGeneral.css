@@ -1,0 +1,152 @@
+.historial-general {
+  padding-bottom: 2rem;
+  background-color: #ffffff;
+}
+
+.historial-general h1 {
+  margin-bottom: 1.5rem;
+  color: #f50c8c;
+}
+
+.filtros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  align-items: center;
+}
+
+.search-container {
+  position: relative;
+  flex: 1;
+  min-width: 200px;
+}
+
+.search-icon {
+  margin-top: 10px;
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-light);
+}
+
+.search-input {
+  margin-top: 20px;
+  width: 100%;
+  padding: 0.75rem 0.75rem 0.75rem 2.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  font-size: 0.9rem;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(221, 227, 223, 0.2);
+}
+
+.date-filter {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.date-filter label {
+  font-size: 0.9rem;
+}
+
+.date-filter input {
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  font-size: 0.9rem;
+}
+
+.clear-filters {
+  padding: 0.75rem 1rem;
+  background-color: var(--secondary-color);
+  border: none;
+  border-radius: var(--border-radius);
+  font-size: 0.9rem;
+  color: white;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.clear-filters:hover {
+  background-color: var(--primary-color);
+}
+
+.historial-table-container {
+  overflow-x: auto;
+}
+
+.historial-table {
+  padding: 2%;
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+}
+
+.historial-table th,
+.historial-table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.historial-table th {
+  background-color: var(--primary-color);
+  font-weight: 500;
+  color: #f50c8c;
+}
+
+.historial-table tr:last-child td {
+  border-bottom: none;
+}
+
+.historial-table .icon {
+  vertical-align: middle;
+  margin-right: 0.25rem;
+}
+
+.action-link {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  background-color: var(--secondary-color);
+  color: white;
+  border-radius: var(--border-radius);
+  font-size: 0.8rem;
+  transition: var(--transition);
+}
+
+.action-link:hover {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .filtros {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .date-filter {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .date-filter input {
+    width: 100%;
+  }
+
+  .historial-table th,
+  .historial-table td {
+    padding: 0.5rem;
+    font-size: 0.9rem;
+  }
+}
+

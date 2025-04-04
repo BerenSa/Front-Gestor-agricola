@@ -1,0 +1,49 @@
+.parcelas-eliminadas {
+  padding-bottom: 2rem;
+}
+
+.parcelas-eliminadas h1 {
+  margin-bottom: 1.5rem;
+  color: var(--primary-color);
+}
+
+.search-container {
+  position: relative;
+  margin-bottom: 1.5rem;
+  max-width: 500px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-light);
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.75rem 0.75rem 0.75rem 2.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  font-size: 0.9rem;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(45, 62, 52, 0.2);
+}
+
+.parcelas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .parcelas-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
