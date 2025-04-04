@@ -35,7 +35,7 @@
 }
 
 .auth-card h1 {
-  color: var(--primary-color);
+  color: #f50c8c;
   font-size: 1.8rem;
   margin-bottom: 0.5rem;
   text-align: center;
@@ -110,7 +110,7 @@
 .auth-button {
   width: 100%;
   padding: 0.75rem;
-  background-color: var(--primary-color);
+  background-color: #f50c8c;
   color: white;
   border: none;
   border-radius: var(--border-radius);
@@ -121,11 +121,11 @@
 }
 
 .auth-button:hover {
-  background-color: var(--primary-dark);
+  background-color: #f50c8c;
 }
 
 .auth-button:disabled {
-  background-color: var(--text-light);
+  background-color: #f50c8c;
   cursor: not-allowed;
 }
 
@@ -136,7 +136,7 @@
 }
 
 .auth-footer a {
-  color: var(--primary-color);
+  color: #f50c8c;
   font-weight: 500;
 }
 
