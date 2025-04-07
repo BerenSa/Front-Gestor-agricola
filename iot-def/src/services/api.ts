@@ -179,3 +179,36 @@ export const fetchParcelasEliminadas = async (): Promise<ParcelaEliminada[]> => 
   }
 }
 
+// Obtener todas las zonas de riego
+export const fetchZonasRiego = async (): Promise<any[]> => {
+  try {
+    const response = await fetch(`${API_URL}/zonas-riego`)
+    return await handleResponse(response)
+  } catch (error) {
+    console.error("Error fetching zonas de riego:", error)
+    throw error
+  }
+}
+
+// Obtener zonas de riego que no están funcionando
+export const fetchZonasRiegoNoFuncionando = async (): Promise<any[]> => {
+  try {
+    const response = await fetch(`${API_URL}/zonas-riego/no-funcionando`)
+    return await handleResponse(response)
+  } catch (error) {
+    console.error("Error fetching zonas de riego no funcionando:", error)
+    throw error
+  }
+}
+
+// Obtener zonas de riego por estado
+export const fetchZonasRiegoByEstado = async (estado: string): Promise<any[]> => {
+  try {
+    const response = await fetch(`${API_URL}/zonas-riego/estado/${estado}`)
+    return await handleResponse(response)
+  } catch (error) {
+    console.error(`Error fetching zonas de riego con estado ${estado}:`, error)
+    throw error
+  }
+}
+
