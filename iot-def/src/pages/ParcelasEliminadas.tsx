@@ -17,21 +17,23 @@ function ParcelasEliminadas() {
   useEffect(() => {
     const loadParcelas = async () => {
       try {
-        setLoading(true)
         const data = await fetchParcelasEliminadas()
-        // Verificar que los datos son válidos
         const validData = data.filter((parcela) => parcela && parcela.nombre)
         setParcelas(validData)
         setFilteredParcelas(validData)
       } catch (err) {
         console.error("Error al cargar parcelas eliminadas:", err)
         setError("Error al cargar los datos. Por favor, intenta de nuevo más tarde.")
-      } finally {
-        setLoading(false)
       }
     }
 
+    // Fetch data initially
     loadParcelas()
+
+    // Set up polling for real-time updates
+    const intervalId = setInterval(loadParcelas, 10000) // Update every 10 seconds
+
+    return () => clearInterval(intervalId) // Cleanup on unmount
   }, [])
 
   useEffect(() => {
@@ -49,7 +51,6 @@ function ParcelasEliminadas() {
   if (loading) {
     return <div className="loading">Cargando datos...</div>
   }
-
 
   return (
     <div className="parcelas-eliminadas">

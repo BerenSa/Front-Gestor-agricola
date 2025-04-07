@@ -12,6 +12,7 @@ import HistorialGeneral from "./pages/HistorialGeneral"
 import Graficas from "./pages/Graficas"
 import GraficasParcela from "./pages/GraficasParcela"
 import ParcelasEliminadas from "./pages/ParcelasEliminadas"
+import ZonasRiego from "./pages/ZonasRiego"
 import Layout from "./components/Layout"
 import "./App.css"
 
@@ -48,6 +49,7 @@ function App() {
         <Route path="graficas" element={<Graficas />} />
         <Route path="graficas-parcela/:id" element={<GraficasParcela />} />
         <Route path="parcelas-eliminadas" element={<ParcelasEliminadas />} />
+        <Route path="zonas-riego" element={<ZonasRiego />} />
       </Route>
     </Routes>
   )
