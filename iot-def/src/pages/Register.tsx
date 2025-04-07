@@ -77,7 +77,7 @@ function Register() {
     try {
       setLoading(true)
       await register(email, password, name)
-      navigate("/")
+      navigate("/login")
     } catch (error: any) {
       let errorMessage = "Error al registrarse"
 
@@ -99,7 +99,7 @@ function Register() {
     <div className="auth-container">
       <div className="auth-card">
         <h1>Crear Cuenta</h1>
-        <h2>CultivosAPP-SierraSosa</h2>
+        <h2>Cultivos</h2>
 
         {error && <div className="error-message">{error}</div>}
 
@@ -122,7 +122,6 @@ function Register() {
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="correo@ejemplo.com"
             />
           </div>
 
@@ -133,7 +132,7 @@ function Register() {
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Contraseña segura"
+              
             />
             <div className="password-requirements">
               <p>La contraseña debe contener:</p>
@@ -161,7 +160,7 @@ function Register() {
           </div>
 
           <button type="submit" className="auth-button" disabled={loading}>
-            {loading ? "Registrando..." : "Registrarse"}
+            {loading ? "Registrado" : "Registrarse"}
           </button>
         </form>
 
@@ -170,9 +169,8 @@ function Register() {
         </div>
       </div>
       <div className="auth-attribution">
-        Imagen por{" "}
+        
         <a href="https://www.freepik.es" target="_blank" rel="noopener noreferrer">
-          Freepik
         </a>
       </div>
     </div>

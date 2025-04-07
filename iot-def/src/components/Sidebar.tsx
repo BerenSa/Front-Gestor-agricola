@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom"
+import { Link, NavLink } from "react-router-dom"
 import { Home, History, BarChart2, Trash2 } from "lucide-react"
 import "../styles/Sidebar.css"
 

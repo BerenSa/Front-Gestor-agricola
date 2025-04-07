@@ -65,7 +65,7 @@ function Login() {
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="correo@ejemplo.com"
+              
             />
           </div>
 
@@ -76,7 +76,7 @@ function Login() {
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Contraseña"
+              
             />
           </div>
 
@@ -90,9 +90,9 @@ function Login() {
         </div>
       </div>
       <div className="auth-attribution">
-        Imagen por{" "}
+        
         <a href="https://www.freepik.es" target="_blank" rel="noopener noreferrer">
-          Freepik
+        
         </a>
       </div>
     </div>

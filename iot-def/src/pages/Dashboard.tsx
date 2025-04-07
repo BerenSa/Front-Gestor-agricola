@@ -20,7 +20,7 @@ function Dashboard() {
   const [promedios, setPromedios] = useState({
     temperatura: 0,
     humedad: 0,
-    lluvia: false,
+    lluvia: 0,
     intensidadSol: 0,
   })
 
@@ -42,7 +42,7 @@ function Dashboard() {
             return {
               temperatura: parcela.temperatura || 0,
               humedad: parcela.humedad || 0,
-              lluvia: parcela.lluvia || false,
+              lluvia: parcela.lluvia || 0,
               intensidadSol: parcela.intensidadSol || 0,
             }
           })
@@ -74,9 +74,6 @@ function Dashboard() {
     return <div className="loading">Cargando datos...</div>
   }
 
-  if (error) {
-    return <div className="error">{error}</div>
-  }
 
   return (
     <div className="dashboard">
@@ -86,19 +83,19 @@ function Dashboard() {
         <MapaUbicaciones parcelas={parcelas} />
 
         <div className="dashboard-widgets">
-          <TemperaturaCard temperatura={promedios.temperatura} />
-          <HumedadCard humedad={promedios.humedad} />
-          <LluviaCard lluvia={promedios.lluvia} />
-          <IntensidadSolCard intensidadSol={promedios.intensidadSol} />
+          <TemperaturaCard temperatura={promedios ? promedios.temperatura : 0} />
+          <HumedadCard humedad={promedios ? promedios.humedad : 0} />
+          <LluviaCard lluvia={promedios ? promedios.lluvia : 0} />
+          <IntensidadSolCard intensidadSol={promedios ? promedios.intensidadSol : 0} />
         </div>
       </div>
 
       <div className="parcelas-list">
         <h2>Listado de Parcelas</h2>
         <div className="parcelas-grid">
-          {parcelas.map((parcela) => (
+          {parcelas ? parcelas.map((parcela) => (
             <ParcelaCard key={parcela.id} parcela={parcela} />
-          ))}
+          )) : <p>No hay parcelas disponibles.</p>}
         </div>
       </div>
     </div>

@@ -361,10 +361,6 @@ function Graficas() {
     return <div className="loading">Cargando datos...</div>
   }
 
-  if (error) {
-    return <div className="error">{error}</div>
-  }
-
   return (
     <div className="graficas-page">
       <h1>Gráficas de Datos</h1>

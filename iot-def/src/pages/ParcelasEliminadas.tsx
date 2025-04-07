@@ -50,9 +50,6 @@ function ParcelasEliminadas() {
     return <div className="loading">Cargando datos...</div>
   }
 
-  if (error) {
-    return <div className="error">{error}</div>
-  }
 
   return (
     <div className="parcelas-eliminadas">
