@@ -1,7 +1,7 @@
 .sidebar {
   width: 250px;
   background-color: #ffffff; /* Fondo blanco */
-  color: #000000; /* Texto negro */
+  color: #f50c8c; /* Texto rosado */
   display: flex;
   flex-direction: column;
   transition: var(--transition);
@@ -13,9 +13,9 @@
 }
 
 .sidebar-header h2 {
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: #f50c8c; /* Texto negro */
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #f50c8c; /* Texto rosado */
 }
 
 .sidebar-nav {
@@ -36,27 +36,39 @@
   align-items: center;
   gap: 0.75rem;
   padding: 0.75rem 1.5rem;
-  color: #f50c8c; /* Texto negro */
+  color: #f50c8c; /* Texto rosado */
+  background-color: transparent; /* Fondo transparente por defecto */
   text-decoration: none;
   border-radius: 8px;
   transition: var(--transition);
+  border: 1px solid transparent; /* Borde transparente */
+  text-transform: none !important; /* Forzar que no haya transformación automática del texto */
+  font-variant: normal; /* Asegurar que no se aplique ninguna variante tipográfica */
+}
+
+.sidebar-nav a span {
+  text-transform: capitalize !important; /* Forzar capitalización del texto */
 }
 
 .sidebar-nav a:hover {
-  background-color: #f50c8c; /* Fondo gris claro al pasar el cursor */
-  color: white; /* Texto negro */
+  background-color: rgba(245, 12, 140, 0.1); /* Fondo rosado semitransparente al pasar el cursor */
+  color: #f50c8c; /* Texto rosado */
+  border: 1px solid #f50c8c; /* Borde rosado */
 }
 
 .sidebar-nav a.active {
-  background-color: #f50c8c; /* Fondo gris claro para el enlace activo */
-  color: white; /* Texto negro */
-  font-weight: 500;
+  background-color: rgba(245, 12, 140, 0.2); /* Fondo rosado más opaco */
+  color: #f50c8c; /* Texto rosado */
+  font-weight: 600;
 }
 
 .sidebar-footer {
+  font-size: 0.9rem;
+  color: #f50c8c; /* Texto rosado */
+  text-align: center; /* Centrar el texto */
+  border-top: 1px solid rgba(245, 12, 140, 0.2); /* Línea superior sutil */
+  padding-top: 1rem;
   padding: 1rem 1.5rem;
-  font-size: 0.8rem;
-  color: #000000; /* Texto negro */
 }
 
 @media (max-width: 768px) {

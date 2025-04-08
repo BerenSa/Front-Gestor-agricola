@@ -8,11 +8,6 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js"
 import "mapbox-gl/dist/mapbox-gl.css"
 import "../styles/Dashboard.css"
 import "../styles/ZonasRiego.css"
-import { Pie } from "react-chartjs-2"
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js"
-
-// Register Chart.js components
-ChartJS.register(ArcElement, Tooltip, Legend)
 
 // Register Chart.js components
 ChartJS.register(ArcElement, Tooltip, Legend)
@@ -126,15 +121,15 @@ const ZonasRiego: React.FC = () => {
 
   // Prepare data for the pie chart
   const pieChartData = {
-    labels: ["Encendido", "Apagado", "Mantenimiento", "Descompuesto", "Fuera de Servicio"],
+    labels: ["Encendido", "Apagado", "Mantenimiento", "Descompuesto", "Fuera de servicio"],
     datasets: [
       {
         data: [
-          zonasRiego.filter((zona) => zona.estado?.toLowerCase() === "encendido").length,
-          zonasRiego.filter((zona) => zona.estado?.toLowerCase() === "apagado").length,
-          zonasRiego.filter((zona) => zona.estado?.toLowerCase() === "mantenimiento").length,
-          zonasRiego.filter((zona) => zona.estado?.toLowerCase() === "descompuesto").length,
-          zonasRiego.filter((zona) => zona.estado?.toLowerCase() === "fuera de servicio").length,
+          zonasPorEstado["encendido"] || 0,
+          zonasPorEstado["apagado"] || 0,
+          zonasPorEstado["mantenimiento"] || 0,
+          zonasPorEstado["descompuesto"] || 0,
+          zonasPorEstado["fuera_de_servicio"] || 0,
         ],
         backgroundColor: ["#4caf50", "#f44336", "#ff9800", "#ff5722", "#9c27b0"], // Updated "Descompuesto" to orange-red
         hoverBackgroundColor: ["#66bb6a", "#e57373", "#ffb74d", "#ff7043", "#ba68c8"], // Updated hover color for orange-red
@@ -159,45 +154,6 @@ const ZonasRiego: React.FC = () => {
 
       {/* List of irrigation zones not functioning */}
       <div style={{ marginTop: "20px", backgroundColor: "#f9f9f9", borderRadius: "10px", padding: "1rem" }}>
-        <h2>Zonas de Riego</h2>
-        {zonasRiego
-          .filter((zona) => zona.estado?.toLowerCase() !== "encendido")
-          .map((zona) => (
-            <div
-              key={zona.id}
-              style={{
-                marginBottom: "1rem",
-                padding: "1rem",
-                border: "1px solid #ccc",
-                borderRadius: "5px",
-                backgroundColor:
-                  zona.estado.toLowerCase() === "descompuesto"
-                    ? "#ffe7ef" // Light orange for "Descompuesto"
-                    : zona.estado.toLowerCase() === "fuera de servicio"
-                    ? "#ffe7ef" // Light violet for "Fuera de Servicio"
-                    : "#ffe7ef",
-              }}
-            >
-              <strong>Nombre:</strong> {zona.nombre} <br />
-              <strong>Estado:</strong>{" "}
-              <span
-                style={{
-                  color: "#f50c8c", // Pink color for all states
-                  fontWeight: "bold",
-                  textTransform: "lowercase", // Ensure lowercase
-                }}
-              >
-                {zona.estado.toLowerCase()}
-              </span>{" "}
-              <br />
-              <strong>Motivo:</strong> {zona.motivo || "No especificado"} <br />
-              <strong>Fecha:</strong> {new Intl.DateTimeFormat("es-ES").format(new Date(zona.fecha))} <br />
-              <strong>Tipo de Riego:</strong> {zona.tipo_riego} <br />
-            </div>
-          ))}
-        {zonasRiego.filter((zona) => zona.estado?.toLowerCase() !== "encendido").length === 0 && (
-          <p>No hay zonas de riego disponibles (excluyendo encendidas).</p>
-        )}
       </div>
     </div>
   )
