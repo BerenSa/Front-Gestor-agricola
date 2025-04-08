@@ -1,5 +1,5 @@
 import { Link, NavLink } from "react-router-dom"
-import { Home, History, BarChart2, Trash2, MapPin } from "lucide-react"
+import { Home, History, BarChart2, Trash2, MapPin, AlertTriangle } from "lucide-react"
 import "../styles/Sidebar.css"
 
 function Sidebar() {
@@ -38,6 +38,12 @@ function Sidebar() {
             <NavLink to="/zonas-riego" className={({ isActive }) => (isActive ? "active" : "")}>
               <MapPin size={20} />
               <span>Zonas de Riego</span>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/zonas-no-disponibles" className={({ isActive }) => (isActive ? "active" : "")}>
+              <AlertTriangle size={20} />
+              <span>Zonas No Disponibles</span>
             </NavLink>
           </li>
         </ul>
