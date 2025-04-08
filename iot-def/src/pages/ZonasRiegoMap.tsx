@@ -43,7 +43,7 @@ const ZonasRiegoMap: React.FC = () => {
       container: "zonas-riego-map",
       style: "mapbox://styles/mapbox/streets-v11",
       center: [-86.865825, 21.069046], // Coordenadas por defecto
-      zoom: 3, 
+      zoom: 100, 
     })
 
     // Agregar controles de navegación
@@ -68,6 +68,13 @@ const ZonasRiegoMap: React.FC = () => {
         return
       }
 
+      // Debug log for color property
+      console.log(`Zona: ${zona.nombre}, Color: ${zona.color}`)
+
+      // Ensure color is valid and fallback to default
+      const markerColor = zona.color?.startsWith("#") ? zona.color : stateColors[zona.estado] || "#2196f3"
+      console.log(`Creating marker for ${zona.nombre} with color: ${markerColor}`)
+
       // Crear elemento HTML para el popup
       const popupContent = document.createElement("div")
       popupContent.innerHTML = `
@@ -79,7 +86,7 @@ const ZonasRiegoMap: React.FC = () => {
       `
 
       // Crear marcador con popup
-      new mapboxgl.Marker({ color: stateColors[zona.estado] || "#2196f3" })
+      new mapboxgl.Marker({ color: markerColor })
         .setLngLat([longitud, latitud])
         .setPopup(new mapboxgl.Popup().setDOMContent(popupContent))
         .addTo(map)

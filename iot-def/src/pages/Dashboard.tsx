@@ -30,8 +30,10 @@ function Dashboard() {
         setLoading(true)
         const data = await fetchParcelas()
 
-        // Filtrar parcelas no eliminadas
-        const parcelasActivas = data.filter((p) => p.is_deleted === 0)
+        // Filtrar parcelas no eliminadas y validar coordenadas
+        const parcelasActivas = data.filter(
+          (p) => p.is_deleted === 0 && !isNaN(parseFloat(p.latitud)) && !isNaN(parseFloat(p.longitud))
+        )
         setParcelas(parcelasActivas)
 
         // Calcular promedios
@@ -74,13 +76,39 @@ function Dashboard() {
     return <div className="loading">Cargando datos...</div>
   }
 
+  if (error) {
+    return <div className="error">{error}</div>
+  }
 
   return (
     <div className="dashboard">
       <h1>Mapa de Ubicaciones</h1>
 
       <div className="dashboard-content">
-        <MapaUbicaciones parcelas={parcelas} />
+        <MapaUbicaciones
+          parcelas={parcelas.map((parcela) => ({
+            id: parcela.id,
+            nombre: parcela.nombre,
+            longitud: parcela.longitud,
+            latitud: parcela.latitud,
+            is_deleted: parcela.is_deleted,
+            popupContent: `
+              <div style="padding: 10px; max-width: 250px;">
+                <strong style="font-size: 16px; color: #2196f3;">${parcela.nombre}</strong>
+                <hr style="border: none; border-top: 1px solid #ddd; margin: 8px 0;" />
+                <p style="margin: 0;">
+                  <strong>Ubicación:</strong> ${parcela.ubicacion} <br />
+                  <strong>Responsable:</strong> ${parcela.responsable} <br />
+                  <strong>Tipo de Cultivo:</strong> ${parcela.tipo_cultivo} <br />
+                  <strong>Último Riego:</strong> ${new Date(parcela.ultimo_riego).toLocaleString()} <br />
+                  <strong>Coordenadas:</strong> ${parcela.latitud}, ${parcela.longitud} <br />
+                </p>
+              </div>
+            `,
+          }))}
+          zoom={12} // Set zoom level
+          center={[-86.865825, 21.069046]} // Set center coordinates
+        />
 
         <div className="dashboard-widgets">
           <TemperaturaCard temperatura={promedios ? promedios.temperatura : 0} />

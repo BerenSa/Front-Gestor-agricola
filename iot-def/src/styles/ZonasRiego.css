@@ -54,6 +54,7 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s, box-shadow 0.2s;
   text-align: center;
+  width: 100%; /* Ensure cards adapt to grid */
 }
 
 .zone-card:hover {
@@ -68,7 +69,7 @@
 .zone-name {
   font-size: 1.5rem;
   font-weight: bold;
-  color: #f44336;
+  color: #f50c8c;
   margin-bottom: 1rem;
 }
 
@@ -118,4 +119,12 @@ span {
 .pie-chart-container canvas {
   max-width: 100%;
   max-height: 300px;
+}
+
+.zones-grid {
+  display: grid; /* Use grid layout */
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive columns */
+  gap: 2rem; /* Add spacing between cards */
+  width: 100%; /* Ensure it spans the container */
+  padding: 1rem; /* Add padding for better spacing */
 }

@@ -23,7 +23,7 @@ const ZonasNoDisponibles: React.FC = () => {
   }, [])
 
   return (
-    <div className="dashboard-content">
+    <div className="zonas-no-disponibles">
       <div className="zones-grid">
         {zonasNoFuncionando.map((zona) => (
           <div key={zona.id} className="zone-card">

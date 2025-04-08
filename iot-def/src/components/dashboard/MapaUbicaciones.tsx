@@ -11,9 +11,11 @@ mapboxgl.accessToken = "pk.eyJ1IjoiZGF2aWRzaXN4IiwiYSI6ImNtNGdoNjkzMzFsODgyaXBzb
 
 interface MapaUbicacionesProps {
   parcelas: Parcela[]
+  zoom?: number // Optional zoom level
+  center?: [number, number] // Optional center coordinates
 }
 
-function MapaUbicaciones({ parcelas }: MapaUbicacionesProps) {
+function MapaUbicaciones({ parcelas, zoom = 12, center = [-86.865825, 21.069046] }: MapaUbicacionesProps) {
   const [map, setMap] = useState<mapboxgl.Map | null>(null)
 
   useEffect(() => {
@@ -24,36 +26,28 @@ function MapaUbicaciones({ parcelas }: MapaUbicacionesProps) {
     const newMap = new mapboxgl.Map({
       container: "mapa-ubicaciones",
       style: "mapbox://styles/mapbox/streets-v11",
-      center: [-86.865825, 21.069046], // Coordenadas por defecto (Nueva York)
-      zoom: 12,
+      center, // Use the provided center
+      zoom, // Use the provided zoom level
     })
 
-    // Agregar controles de navegación
     newMap.addControl(new mapboxgl.NavigationControl())
 
-    // Agregar marcadores solo si hay parcelas
     if (parcelas.length > 0) {
       newMap.on("load", () => {
         parcelas.forEach((parcela) => {
-          if (parcela.is_deleted === 1) return // No mostrar parcelas eliminadas
+          if (parcela.is_deleted === 1) return
 
-          // Formatear fecha de último riego
-          const fechaRiego = new Date(parcela.ultimo_riego).toLocaleDateString()
+          // Debug log for popup content
+          console.log(`Creating marker for parcela: ${parcela.nombre}, Popup Content: ${parcela.popupContent}`)
 
-          // Crear elemento HTML para el popup
-          const popupContent = document.createElement("div")
-          popupContent.className = "popup-content"
-          popupContent.innerHTML = `
-            <h3>${parcela.nombre}</h3>
-            <p><strong>Responsable:</strong> ${parcela.responsable}</p>
-            <p><strong>Último riego:</strong> ${fechaRiego}</p>
-            <a href="/parcela/${parcela.id}" class="popup-link">Ver detalles</a>
-          `
+          // Ensure popupContent is valid
+          const popupContent = parcela.popupContent || "<p>No content available</p>"
+          const popup = new mapboxgl.Popup().setHTML(popupContent)
 
-          // Crear marcador con popup
-          new mapboxgl.Marker({ color: "#e53935" })
+          // Use parcela.color if available, otherwise default to red
+          new mapboxgl.Marker({ color: parcela.color || "#e53935" })
             .setLngLat([Number.parseFloat(parcela.longitud), Number.parseFloat(parcela.latitud)])
-            .setPopup(new mapboxgl.Popup().setDOMContent(popupContent))
+            .setPopup(popup) // Attach popup to marker
             .addTo(newMap)
         })
       })
@@ -61,13 +55,18 @@ function MapaUbicaciones({ parcelas }: MapaUbicacionesProps) {
 
     setMap(newMap)
 
-    // Limpiar al desmontar
     return () => {
       newMap.remove()
     }
-  }, [parcelas])
+  }, [parcelas, zoom, center]) // Add zoom and center to dependencies
 
-  return <div id="mapa-ubicaciones" className="map-container"></div>
+  return (
+    <div
+      id="mapa-ubicaciones"
+      className="map-container"
+      style={{ width: "100%", height: "400px" }} // Ensure container has dimensions
+    ></div>
+  )
 }
 
 export default MapaUbicaciones
