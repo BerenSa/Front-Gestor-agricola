@@ -1,23 +1,94 @@
 .dashboard-container {
-  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  background-color: #f9f9f9;
+  min-height: 100vh;
+  font-family: "Arial", sans-serif;
 }
 
 .dashboard-title {
-  font-size: 24px;
-  font-weight: bold;
-  color: #f50c8c; /* Changed to pink */
+  text-align: center;
+  font-size: 2rem;
+  color: #333;
   margin-bottom: 20px;
-  margin-left: 20px; /* Add some left margin for spacing */
+}
+
+.dashboard-content {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  padding: 2rem;
+  background-color: #f9f9f9;
+}
+
+.map-section,
+.zones-section {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.map-section {
+  flex: 2;
+  min-width: 300px;
+}
+
+.zones-section {
+  flex: 1;
+  min-width: 300px;
 }
 
 .map-container {
-  width: 100%;
-  height: 400px;
+  height: 500px; /* Adjusted height for better visibility */
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  margin: 0 20px; /* Add margin for spacing */
-  float: left; /* Align the map to the left */
+}
+
+.zone-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+  text-align: center;
+}
+
+.zone-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.zone-card strong {
+  color: #333;
+}
+
+.zone-name {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #f44336;
+  margin-bottom: 1rem;
+}
+
+.zone-status {
+  font-weight: bold;
+  color: #f44336;
+}
+
+.no-zones-message {
+  font-size: 1.2rem;
+  color: #666;
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.error-message {
+  color: #f44336;
+  font-weight: bold;
+  margin-top: 1rem;
+  text-align: center;
 }
 
 h2 {

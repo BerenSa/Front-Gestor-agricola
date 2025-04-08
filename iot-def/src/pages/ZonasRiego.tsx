@@ -2,12 +2,17 @@
 
 import React, { useEffect, useState } from "react"
 import mapboxgl from "mapbox-gl"
-import { fetchZonasRiego } from "../services/api"
+import { fetchZonasRiegoFuncionando, fetchZonasRiegoNoFuncionando, fetchZonasRiegoByEstado } from "../services/api"
+import { Pie } from "react-chartjs-2"
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js"
 import "mapbox-gl/dist/mapbox-gl.css"
 import "../styles/Dashboard.css"
 import "../styles/ZonasRiego.css"
 import { Pie } from "react-chartjs-2"
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js"
+
+// Register Chart.js components
+ChartJS.register(ArcElement, Tooltip, Legend)
 
 // Register Chart.js components
 ChartJS.register(ArcElement, Tooltip, Legend)
@@ -26,42 +31,57 @@ const ZonasRiego: React.FC = () => {
   const [zonasRiego, setZonasRiego] = useState<any[]>([])
   const [error, setError] = useState<string | null>(null)
   const [map, setMap] = useState<mapboxgl.Map | null>(null)
+  const [zonasPorEstado, setZonasPorEstado] = useState<Record<string, number>>({})
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await fetchZonasRiego()
-        setZonasRiego(data)
+        const funcionando = await fetchZonasRiegoFuncionando()
+        setZonasRiego(funcionando)
       } catch (err) {
         console.error("Error fetching zonas de riego:", err)
         setError("No se pudieron cargar las zonas de riego.")
       }
     }
 
-    // Fetch data initially
     fetchData()
+    const intervalId = setInterval(fetchData, 10000)
 
-    // Set up polling for real-time updates
-    const intervalId = setInterval(fetchData, 10000) // Update every 10 seconds
+    return () => clearInterval(intervalId)
+  }, [])
 
-    return () => clearInterval(intervalId) // Cleanup on unmount
+  useEffect(() => {
+    const fetchZonasPorEstado = async () => {
+      try {
+        const estados = ["mantenimiento", "descompuesto", "fuera_de_servicio", "encendido"]
+        const counts: Record<string, number> = {}
+
+        for (const estado of estados) {
+          const zonas = await fetchZonasRiegoByEstado(estado)
+          counts[estado] = zonas.length
+        }
+
+        setZonasPorEstado(counts)
+      } catch (err) {
+        console.error("Error fetching zonas por estado:", err)
+      }
+    }
+
+    fetchZonasPorEstado()
   }, [])
 
   useEffect(() => {
     const mapContainer = document.getElementById("zonas-riego-map")
     if (!mapContainer) return
 
-    // Inicializar mapa
     const newMap = new mapboxgl.Map({
       container: "zonas-riego-map",
       style: "mapbox://styles/mapbox/streets-v11",
-      center: [-86.84654829666589, 21.049696912777954], // Coorde21.049696912777954, -86.84654829666589nadas por defecto
-      zoom: 16, // Set zoom level to 14
+      center: [-86.84654829666589, 21.049696912777954],
+      zoom: 16,
     })
 
-    // Agregar controles de navegación
     newMap.addControl(new mapboxgl.NavigationControl())
-
     setMap(newMap)
 
     return () => {
@@ -70,54 +90,37 @@ const ZonasRiego: React.FC = () => {
   }, [])
 
   useEffect(() => {
-    console.log(zonasRiego)
     if (!map || zonasRiego.length === 0) return
+
     zonasRiego.forEach((zona) => {
-      console.log("Zona object:", zona) // Log the entire zona object for debugging
+      const lat = parseFloat(zona.latitud)
+      const lng = parseFloat(zona.longitud)
 
-      // Ensure latitud and longuitud are defined
-      const rawLatitud = zona.latitud ?? "undefined"
-      const rawLonguitud = zona.longuitud ?? zona.longitud ?? "undefined" // Check for alternative property names
-
-      // Convert latitud and longuitud to float
-      const lat = parseFloat(rawLatitud)
-      const lng = parseFloat(rawLonguitud)
-
-      // Validate lat and lng
       if (isNaN(lat) || isNaN(lng)) {
-        console.warn(`Invalid coordinates for zona: ${zona.nombre}`, {
-          rawLatitud,
-          rawLonguitud,
-          lat,
-          lng,
-        })
+        console.warn(`Invalid coordinates for zona: ${zona.nombre}`, { lat, lng })
         return
       }
 
-      // Format the date
-      const formattedDate = new Intl.DateTimeFormat("es-ES", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      }).format(new Date(zona.fecha))
+      const markerColor = zona.color || "#000"
 
-      // Crear elemento HTML para el popup
-      const popupContent = document.createElement("div")
-      popupContent.innerHTML = `
-        <strong>Nombre:</strong> ${zona.nombre} <br />
-        <strong>Tipo de Riego:</strong> ${zona.tipo_riego} <br />
-        <strong>Estado:</strong> ${zona.estado} <br />
-        <strong>Fecha:</strong> ${formattedDate} <br />
-      `
+      // Use the default Mapbox marker
+      const popup = new mapboxgl.Popup().setHTML(`
+        <div style="padding: 10px; max-width: 250px;">
+          <strong style="font-size: 16px; color: #2196f3;">${zona.nombre}</strong>
+          <hr style="border: none; border-top: 1px solid #ddd; margin: 8px 0;" />
+          <p style="margin: 0;">
+            <strong>Sector:</strong> ${zona.sector} <br />
+            <strong>Tipo de Riego:</strong> ${zona.tipo_riego} <br />
+            <strong>Estado Actual:</strong> <span style="color: ${markerColor};">${zona.estado}</span> <br />
+            <strong>Fecha de Actualización:</strong> ${zona.fecha} <br />
+          </p>
+        </div>
+      `);
 
-      // Use the color provided by the API or fallback to a default color
-      const markerColor = zona.color || "#2196f3"
-
-      // Crear marcador con popup
       new mapboxgl.Marker({ color: markerColor })
         .setLngLat([lng, lat])
-        .setPopup(new mapboxgl.Popup().setDOMContent(popupContent))
-        .addTo(map)
+        .setPopup(popup)
+        .addTo(map);
     })
   }, [map, zonasRiego])
 
@@ -141,10 +144,8 @@ const ZonasRiego: React.FC = () => {
 
   return (
     <div className="dashboard-container">
-      <h1 className="dashboard-title">Zonas de Riego</h1>
-      <div style={{ display: "flex", gap: "30px" }}>
-        {/* Map Section */}
-        <div style={{ flex: 2, backgroundColor: "#f9f9f9", borderRadius: "10px", padding: "1rem" }}>
+      <div className="dashboard-content">
+        <div className="map-section">
           <h2>Mapa de Zonas de Riego</h2>
           <div id="zonas-riego-map" className="map-container"></div>
         </div>

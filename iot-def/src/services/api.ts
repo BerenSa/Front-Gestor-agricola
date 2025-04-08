@@ -179,11 +179,42 @@ export const fetchParcelasEliminadas = async (): Promise<ParcelaEliminada[]> => 
   }
 }
 
+// Helper function to format estado
+const formatEstado = (estado: string): string => {
+  return estado
+    .replace(/_/g, " ") // Replace underscores with spaces
+    .toLowerCase()
+    .replace(/^\w/, (c) => c.toUpperCase()) // Capitalize the first letter
+}
+
+// Helper function to format dates
+const formatFecha = (fecha: string | null): string => {
+  if (!fecha || fecha === "No disponible") return "No disponible"
+  return new Intl.DateTimeFormat("es-ES", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  }).format(new Date(fecha))
+}
+
 // Obtener todas las zonas de riego
 export const fetchZonasRiego = async (): Promise<any[]> => {
   try {
     const response = await fetch(`${API_URL}/zonas-riego`)
-    return await handleResponse(response)
+    const data = await handleResponse(response)
+
+    // Format the response to ensure consistent structure
+    return data.map((zona: any) => ({
+      id: zona.id,
+      sector: zona.sector || "No especificado",
+      nombre: zona.nombre,
+      tipo_riego: zona.tipo_riego,
+      estado: formatEstado(zona.estado), // Format estado
+      fecha: formatFecha(zona.fecha), // Format fecha
+      latitud: zona.latitud,
+      longitud: zona.longitud,
+      color: zona.color || "#2196f3",
+    }))
   } catch (error) {
     console.error("Error fetching zonas de riego:", error)
     throw error
@@ -194,9 +225,46 @@ export const fetchZonasRiego = async (): Promise<any[]> => {
 export const fetchZonasRiegoNoFuncionando = async (): Promise<any[]> => {
   try {
     const response = await fetch(`${API_URL}/zonas-riego/no-funcionando`)
-    return await handleResponse(response)
+    const data = await handleResponse(response)
+
+    // Format the response to ensure consistent structure
+    return data.map((zona: any) => ({
+      id: zona.id,
+      sector: zona.sector || "No especificado",
+      nombre: zona.nombre,
+      tipo_riego: zona.tipo_riego,
+      estado: formatEstado(zona.estado), // Format estado
+      fecha: formatFecha(zona.fecha), // Format fecha
+      latitud: zona.latitud,
+      longitud: zona.longitud,
+      color: zona.color || "#f44336", // Default color for non-functioning zones
+    }))
   } catch (error) {
     console.error("Error fetching zonas de riego no funcionando:", error)
+    throw error
+  }
+}
+
+// Obtener zonas de riego que están funcionando
+export const fetchZonasRiegoFuncionando = async (): Promise<any[]> => {
+  try {
+    const response = await fetch(`${API_URL}/zonas-riego/funcionando`)
+    const data = await handleResponse(response)
+
+    // Format the response to ensure consistent structure
+    return data.map((zona: any) => ({
+      id: zona.id,
+      sector: zona.sector || "No especificado",
+      nombre: zona.nombre,
+      tipo_riego: zona.tipo_riego,
+      estado: formatEstado(zona.estado), // Format estado
+      fecha: formatFecha(zona.fecha), // Format fecha
+      latitud: zona.latitud,
+      longitud: zona.longitud,
+      color: zona.color || "#4caf50", // Default color for functioning zones
+    }))
+  } catch (error) {
+    console.error("Error fetching zonas de riego funcionando:", error)
     throw error
   }
 }
@@ -205,7 +273,20 @@ export const fetchZonasRiegoNoFuncionando = async (): Promise<any[]> => {
 export const fetchZonasRiegoByEstado = async (estado: string): Promise<any[]> => {
   try {
     const response = await fetch(`${API_URL}/zonas-riego/estado/${estado}`)
-    return await handleResponse(response)
+    const data = await handleResponse(response)
+
+    // Format the response to ensure consistent structure
+    return data.map((zona: any) => ({
+      id: zona.id,
+      sector: zona.sector || "No especificado",
+      nombre: zona.nombre,
+      tipo_riego: zona.tipo_riego,
+      estado: formatEstado(zona.estado), // Format estado
+      fecha: formatFecha(zona.fecha), // Format fecha
+      latitud: zona.latitud,
+      longitud: zona.longitud,
+      color: zona.color || "#2196f3", // Default color
+    }))
   } catch (error) {
     console.error(`Error fetching zonas de riego con estado ${estado}:`, error)
     throw error
