@@ -13,6 +13,7 @@ const stateColors: Record<string, string> = {
   activo: "#4caf50",
   inactivo: "#f44336",
   mantenimiento: "#ff9800",
+  "fuera de servicio": "#9c27b0",
 }
 
 const ZonasRiegoMap: React.FC = () => {
@@ -42,7 +43,7 @@ const ZonasRiegoMap: React.FC = () => {
       container: "zonas-riego-map",
       style: "mapbox://styles/mapbox/streets-v11",
       center: [-86.865825, 21.069046], // Coordenadas por defecto
-      zoom: 4,
+      zoom: 3, 
     })
 
     // Agregar controles de navegación
@@ -101,10 +102,27 @@ const ZonasRiegoMap: React.FC = () => {
           .map((zona) => (
             <div key={zona.id} style={{ marginBottom: "1rem", padding: "0.5rem", border: "1px solid #ccc" }}>
               <strong>Nombre:</strong> {zona.nombre} <br />
-              <strong>Estado:</strong> {zona.estado} <br />
+              <strong>Estado:</strong>{" "}
+              <span
+                style={{
+                  color:
+                    zona.estado.toLowerCase() === "descompuesto"
+                      ? "#ff5722"
+                      : zona.estado.toLowerCase() === "fuera de servicio"
+                      ? "#9c27b0"
+                      : "#ff9800",
+                  fontWeight: "bold",
+                }}
+              >
+                {zona.estado}
+              </span>{" "}
+              <br />
               <strong>Motivo:</strong> {zona.motivo || "No especificado"} <br />
             </div>
           ))}
+        {zonasRiego.filter((zona) =>
+          ["mantenimiento", "descompuesto", "fuera de servicio"].includes(zona.estado.toLowerCase())
+        ).length === 0 && <p>No hay zonas en mantenimiento, descompuestas o fuera de servicio.</p>}
       </div>
     </div>
   )

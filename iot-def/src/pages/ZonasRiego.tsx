@@ -6,6 +6,11 @@ import { fetchZonasRiego } from "../services/api"
 import "mapbox-gl/dist/mapbox-gl.css"
 import "../styles/Dashboard.css"
 import "../styles/ZonasRiego.css"
+import { Pie } from "react-chartjs-2"
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js"
+
+// Register Chart.js components
+ChartJS.register(ArcElement, Tooltip, Legend)
 
 // Configurar token de Mapbox
 mapboxgl.accessToken = "pk.eyJ1IjoiZGF2aWRzaXN4IiwiYSI6ImNtNGdoNjkzMzFsODgyaXBzbXQxdHdjdXcifQ.cbBB4nPaDF9XmhdD-Hdolw"
@@ -116,6 +121,24 @@ const ZonasRiego: React.FC = () => {
     })
   }, [map, zonasRiego])
 
+  // Prepare data for the pie chart
+  const pieChartData = {
+    labels: ["Encendido", "Apagado", "Mantenimiento", "Descompuesto", "Fuera de Servicio"],
+    datasets: [
+      {
+        data: [
+          zonasRiego.filter((zona) => zona.estado?.toLowerCase() === "encendido").length,
+          zonasRiego.filter((zona) => zona.estado?.toLowerCase() === "apagado").length,
+          zonasRiego.filter((zona) => zona.estado?.toLowerCase() === "mantenimiento").length,
+          zonasRiego.filter((zona) => zona.estado?.toLowerCase() === "descompuesto").length,
+          zonasRiego.filter((zona) => zona.estado?.toLowerCase() === "fuera de servicio").length,
+        ],
+        backgroundColor: ["#4caf50", "#f44336", "#ff9800", "#ff5722", "#9c27b0"], // Updated "Descompuesto" to orange-red
+        hoverBackgroundColor: ["#66bb6a", "#e57373", "#ffb74d", "#ff7043", "#ba68c8"], // Updated hover color for orange-red
+      },
+    ],
+  }
+
   return (
     <div className="dashboard-container">
       <h1 className="dashboard-title">Zonas de Riego</h1>
@@ -126,44 +149,54 @@ const ZonasRiego: React.FC = () => {
           <div id="zonas-riego-map" className="map-container"></div>
         </div>
 
-        {/* List of irrigation zones not functioning */}
+        {/* Pie Chart Section */}
         <div style={{ flex: 1, backgroundColor: "#f9f9f9", borderRadius: "10px", padding: "1rem" }}>
-          <h2>Zonas Fuera de Servicio</h2>
-          {zonasRiego
-            .filter((zona) =>
-              ["mantenimiento", "descompuesto", "fuera de servicio"].includes(zona.estado.toLowerCase())
-            )
-            .map((zona) => (
-              <div
-                key={zona.id}
+          <h2>Distribución por Estado</h2>
+          <Pie data={pieChartData} />
+        </div>
+      </div>
+
+      {/* List of irrigation zones not functioning */}
+      <div style={{ marginTop: "20px", backgroundColor: "#f9f9f9", borderRadius: "10px", padding: "1rem" }}>
+        <h2>Zonas de Riego</h2>
+        {zonasRiego
+          .filter((zona) => zona.estado?.toLowerCase() !== "encendido")
+          .map((zona) => (
+            <div
+              key={zona.id}
+              style={{
+                marginBottom: "1rem",
+                padding: "1rem",
+                border: "1px solid #ccc",
+                borderRadius: "5px",
+                backgroundColor:
+                  zona.estado.toLowerCase() === "descompuesto"
+                    ? "#ffe7ef" // Light orange for "Descompuesto"
+                    : zona.estado.toLowerCase() === "fuera de servicio"
+                    ? "#ffe7ef" // Light violet for "Fuera de Servicio"
+                    : "#ffe7ef",
+              }}
+            >
+              <strong>Nombre:</strong> {zona.nombre} <br />
+              <strong>Estado:</strong>{" "}
+              <span
                 style={{
-                  marginBottom: "1rem",
-                  padding: "1rem",
-                  border: "1px solid #ccc",
-                  borderRadius: "5px",
-                  backgroundColor: zona.estado.toLowerCase() === "descompuesto" ? "#ffe6e6" : "#fff8e6",
+                  color: "#f50c8c", // Pink color for all states
+                  fontWeight: "bold",
+                  textTransform: "lowercase", // Ensure lowercase
                 }}
               >
-                <strong>Nombre:</strong> {zona.nombre} <br />
-                <strong>Estado:</strong>{" "}
-                <span
-                  style={{
-                    color: zona.estado.toLowerCase() === "descompuesto" ? "#f44336" : "#ff9800",
-                    fontWeight: "bold",
-                  }}
-                >
-                  {zona.estado}
-                </span>{" "}
-                <br />
-                <strong>Motivo:</strong> {zona.motivo || "No especificado"} <br />
-                <strong>Fecha:</strong> {new Intl.DateTimeFormat("es-ES").format(new Date(zona.fecha))} <br />
-                <strong>Tipo de Riego:</strong> {zona.tipo_riego} <br />
-              </div>
-            ))}
-          {zonasRiego.filter((zona) =>
-            ["mantenimiento", "descompuesto", "fuera de servicio"].includes(zona.estado.toLowerCase())
-          ).length === 0 && <p>No hay zonas en mantenimiento o fuera de servicio.</p>}
-        </div>
+                {zona.estado.toLowerCase()}
+              </span>{" "}
+              <br />
+              <strong>Motivo:</strong> {zona.motivo || "No especificado"} <br />
+              <strong>Fecha:</strong> {new Intl.DateTimeFormat("es-ES").format(new Date(zona.fecha))} <br />
+              <strong>Tipo de Riego:</strong> {zona.tipo_riego} <br />
+            </div>
+          ))}
+        {zonasRiego.filter((zona) => zona.estado?.toLowerCase() !== "encendido").length === 0 && (
+          <p>No hay zonas de riego disponibles (excluyendo encendidas).</p>
+        )}
       </div>
     </div>
   )
