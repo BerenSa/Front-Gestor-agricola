@@ -8,23 +8,38 @@
 }
 
 .dashboard-content {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.5rem;
-  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  margin-bottom: 30px;
 }
 
 .map-container {
-  height: 400px;
+  flex: 2;
+  min-width: 0;
+  height: 500px; /* Increased height */
   border-radius: var(--border-radius);
   overflow: hidden;
   box-shadow: var(--shadow);
+  position: relative; /* Add position relative */
+}
+
+/* Add styles to ensure the map takes full container space */
+.map-container > div {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.map-container .leaflet-container {
+  width: 100% !important;
+  height: 100% !important;
 }
 
 .dashboard-widgets {
+  flex: 1;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
 }
 
 .widget {
@@ -256,6 +271,31 @@
   }
 }
 
+@media (max-width: 992px) {
+  .dashboard-content {
+    flex-direction: column;
+  }
+  
+  .map-container, 
+  .dashboard-widgets {
+    width: 100%;
+  }
+  
+  .map-container {
+    height: 400px; /* Ensure height is specified for responsive view */
+    margin-bottom: 20px;
+  }
+  
+  /* Ensure map elements maintain height in responsive view */
+  .map-container > div,
+  .map-container .leaflet-container {
+    height: 100% !important;
+    width: 100% !important;
+    min-height: 400px; /* Set minimum height */
+    display: block;
+  }
+}
+
 @media (max-width: 768px) {
   .dashboard-widgets {
     grid-template-columns: 1fr;
@@ -267,6 +307,15 @@
 
   .widget-value {
     font-size: 2rem;
+  }
+  
+  .map-container {
+    height: 350px; /* Slightly smaller on very small screens */
+  }
+  
+  .map-container > div,
+  .map-container .leaflet-container {
+    min-height: 350px;
   }
 }
 
