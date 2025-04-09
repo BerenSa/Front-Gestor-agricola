@@ -82,8 +82,7 @@ const ZonasRiegoMap: React.FC = () => {
         <strong>Tipo de Riego:</strong> ${zona.tipo_riego} <br />
         <strong>Estado:</strong> ${zona.estado} <br />
         <strong>Fecha:</strong> ${zona.fecha} <br />
-        <strong>Ubicación:</strong> ${zona.latitud}, ${zona.longuitud}
-      `
+      
 
       // Crear marcador con popup
       new mapboxgl.Marker({ color: markerColor })

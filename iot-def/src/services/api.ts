@@ -11,6 +11,24 @@ const handleResponse = async (response: Response) => {
   return response.json()
 }
 
+interface SensoresData {
+  humedad: number
+  temperatura: number
+  lluvia: number
+  sol: number
+}
+
+export const fetchSensoresData = async (): Promise<SensoresData> => {
+  try {
+    const response = await fetch('https://moriahmkt.com/iotapp/updated/')
+    const data = await handleResponse(response)
+    return data.sensores
+  } catch (error) {
+    console.error('Error fetching sensores data:', error)
+    throw error
+  }
+}
+
 // Obtener todas las parcelas
 export const fetchParcelas = async (): Promise<Parcela[]> => {
   try {

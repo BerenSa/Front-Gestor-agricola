@@ -4,7 +4,7 @@
 
 .dashboard h1 {
   margin-bottom: 1.5rem;
-  color: #f50c8c; /* Cambiado de verde a negro */
+  color: #f50c8c;
 }
 
 .dashboard-content {
@@ -17,14 +17,13 @@
 .map-container {
   flex: 2;
   min-width: 0;
-  height: 500px; /* Increased height */
+  height: 500px;
   border-radius: var(--border-radius);
   overflow: hidden;
   box-shadow: var(--shadow);
-  position: relative; /* Add position relative */
+  position: relative;
 }
 
-/* Add styles to ensure the map takes full container space */
 .map-container > div {
   width: 100% !important;
   height: 100% !important;
@@ -36,30 +35,32 @@
 }
 
 .dashboard-widgets {
-  flex: 1;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 15px;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  flex: 1;
+  margin-bottom: 2rem;
 }
 
 .widget {
+  text-align: center;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   background-color: white;
-  border-radius: var(--border-radius);
-  padding: 1.5rem;
-  box-shadow: var(--shadow);
 }
 
 .widget-header {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
   margin-bottom: 1rem;
-  color: #f50c8c; /* Cambiado de verde a negro */
 }
 
-.widget-header h3 {
-  font-size: 1rem;
-  font-weight: 500;
+.widget-value {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
 }
 
 .widget-content {
@@ -67,12 +68,6 @@
   justify-content: space-between;
   align-items: center;
   height: 100px;
-}
-
-.widget-value {
-  font-size: 2.5rem;
-  font-weight: 600;
-  color: #000000; /* Texto en negro */
 }
 
 .widget-unit {
@@ -407,5 +402,42 @@
   font-size: 1.2rem;
   color: #f50c8c; /* Cambiado de verde a negro */
   display: inline-block;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.refresh-controls {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.refresh-button {
+  background-color: #3f51b5;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.refresh-button:hover {
+  background-color: #303f9f;
+}
+
+.refresh-button:disabled {
+  background-color: #bdbdbd;
+  cursor: not-allowed;
+}
+
+.last-updated {
+  font-size: 0.9rem;
+  color: #666;
 }
 

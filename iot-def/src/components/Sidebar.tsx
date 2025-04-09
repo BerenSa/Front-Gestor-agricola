@@ -17,10 +17,7 @@ function Sidebar() {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/historial" className={({ isActive }) => (isActive ? "active" : "")}>
-              <History size={20} />
-              <span>Historial General</span>
-            </NavLink>
+            
           </li>
           <li>
             <NavLink to="/graficas" className={({ isActive }) => (isActive ? "active" : "")}>
